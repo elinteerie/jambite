@@ -117,3 +117,8 @@ async def topic_content_details(user: user_dependency, db: db_dependency, topic_
         
     }
 
+
+
+@router.get('/get-pass', status_code=status.HTTP_200_OK)
+async def topic_content_details(user: user_dependency, db: db_dependency, topic_id:int):
+    pass
