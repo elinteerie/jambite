@@ -34,17 +34,6 @@ class OTP(SQLModel, table=True):
     user: Optional["User"] = Relationship(back_populates="otps")
 
 
-class User(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True, index=True)
-    full_name: str = Field(default=None, nullable=True)
-    email:str = Field(unique=True)
-    phone_number: str = Field(default=None, nullable=True)
-    hashed_password: str = Field(nullable=True)
-    role: str 
-    int_id: int = Field(foreign_key="institution.id")
-    institution: list[Institution] = Relationship(back_populates="user")
-    otps: list[OTP] = Relationship(back_populates="user")
-    activated: bool = Field(default=False)
 
 
 class Subject(SQLModel, table=True):
