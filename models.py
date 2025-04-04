@@ -72,7 +72,7 @@ class Topic(SQLModel, table=True):
     subject_id: int = Field(default=None, foreign_key="subject.id")
 
     subject: Subject = Relationship(back_populates="topics")
-    questions: List["Question"] = Relationship(back_populates="topic")
+    questions: List["Question"] = Relationship(back_populates="topic", cascade_delete=True)
 
 
 
@@ -90,6 +90,11 @@ class Question(SQLModel, table=True):
     topic_id: int = Field(foreign_key="topic.id")
 
     topic: Topic = Relationship(back_populates="questions")
+
+
+class CutOff(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True, index=True)
+    text: str = Field(default=None, sa_column=Column(Text))
 
 
 

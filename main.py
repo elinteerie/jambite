@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from database import engine, get_db
 import models
 import routers
-from models import Institution, Subject, Topic, User, ActivationPin
-from routers import auth, notes, user
+from models import Institution, Subject, Topic, User, ActivationPin, CutOff, Question
+from routers import auth, notes, user, pastq
 from contextlib import asynccontextmanager
 from models import create_db_and_tables
 from fastapi import Depends, HTTPException, status, Request
@@ -134,6 +134,7 @@ SECRET = "1234567890"
 app.include_router(auth.router)
 app.include_router(notes.router)
 app.include_router(user.router)
+app.include_router(pastq.router)
 #app.include_router(header.router)
 #app.include_router(lecture.router)
 #app.include_router(pq.router)
@@ -174,10 +175,19 @@ class TopictAdmin(ModelView, model=Topic):
 class ActivationAdmin(ModelView, model=ActivationPin):
     column_list = "__all__"
 
+class CutOffAdmin(ModelView, model=CutOff):
+    column_list = "__all__"
+
+
+class QuestiojnAdmin(ModelView, model=Question):
+    column_list = "__all__"
+
 
 admin.add_view(UserAdmin)
 admin.add_view(InstitutionAdmin)
 admin.add_view(SubjectAdmin)
 admin.add_view(TopictAdmin)
 admin.add_view(ActivationAdmin)
+admin.add_view(CutOffAdmin)
+admin.add_view(QuestiojnAdmin)
 

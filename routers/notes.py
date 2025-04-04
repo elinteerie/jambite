@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, EmailStr
 from sqlalchemy.orm import Session
 from database import get_db
 from .auth import get_current_user
-from models import User, Topic, Subject
+from models import User, Topic, Subject, CutOff
 from passlib.context import CryptContext
 from typing import Annotated, Optional
 from sqlalchemy import or_
@@ -119,6 +119,10 @@ async def topic_content_details(user: user_dependency, db: db_dependency, topic_
 
 
 
-@router.get('/get-pass', status_code=status.HTTP_200_OK)
-async def topic_content_details(user: user_dependency, db: db_dependency, topic_id:int):
-    pass
+@router.get('/cut-off-uni', status_code=status.HTTP_200_OK)
+async def cut_off(db: db_dependency):
+
+    cut_off_info_state = select(CutOff).where(CutOff.id ==1)
+    cut_off = db.exec(cut_off_info_state).first()
+
+    return cut_off

@@ -6,7 +6,7 @@ from email.mime.application import MIMEApplication
 
 # Hardcoded SMTP server settings
 SMTP_SERVER='smtp.gmail.com'
-SMTP_PORT=465  # Port for TLS
+SMTP_PORT=587  # Port for TLS
 SENDER_EMAIL='itededucationalsoftwares@gmail.com'
 SENDER_PASSWORD='mpttokatkeucieev'
 
