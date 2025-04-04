@@ -129,12 +129,19 @@ async def create_user(user_request: CreateUserRequest, db: db_dependency, backgr
     db.commit()
     db.refresh(create_user)
 
+    user_otp_create = OTP(user_id=create_user.id)
+    db.add(user_otp_create)
+
+    db.commit()
+    db.refresh(user_otp_create)
+
     background_tasks.add_task(
         send_custom_email,
-        user_request.email,
-        "FUTO STUDY APP",
-        "Welcome Mail",
-        "Welcome to FUTO Study APP"
+        create_user.email,
+        create_user.full_name,
+        user_otp_create.otp_code
+
+        
     )
 
     user = authenticate_user(user_request.email, user_request.password, db)

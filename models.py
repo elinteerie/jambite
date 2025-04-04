@@ -43,7 +43,7 @@ class User(SQLModel, table=True):
     role: str 
     int_id: int = Field(foreign_key="institution.id")
     institution: list[Institution] = Relationship(back_populates="user")
-    otps: list[OTP] = Relationship(back_populates="user")
+    otps: list[OTP] = Relationship(back_populates="user", cascade_delete=True)
     activated: bool = Field(default=False)
 
 
