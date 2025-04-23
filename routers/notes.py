@@ -71,7 +71,7 @@ async def get_subject_topic(user: user_dependency, db: db_dependency, subject_id
    
 
     if not subjects:
-        raise HTTPException(status_code=404, detail="No Topic found")
+        return []
     
 
     return [{"id": topic.id, "title": topic.title, "free": topic.free} for topic in subjects]

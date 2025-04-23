@@ -18,6 +18,19 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
 
+@router.get('/info',status_code=status.HTTP_200_OK)
+async def user_info(user: user_dependency, db: db_dependency):
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Not Authenticated")
+    
+
+    user_model = db.query(User).filter(User.id == user.get('id')).first()
+
+    return user_model
+
+
+
 @router.patch('/activate-app',status_code=status.HTTP_200_OK)
 async def activate_app(pin: str, user: user_dependency, db: db_dependency):
     """

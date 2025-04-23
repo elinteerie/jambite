@@ -26,6 +26,7 @@ from sqladmin import Admin, ModelView
 #from starlette.responses import Response
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.middleware.wsgi import WSGIMiddleware
 
 
 
@@ -191,3 +192,14 @@ admin.add_view(ActivationAdmin)
 admin.add_view(CutOffAdmin)
 admin.add_view(QuestiojnAdmin)
 
+
+
+def create_wsgi_app():
+    return WSGIMiddleware(app)
+
+wsgi_app = create_wsgi_app()
+    
+    
+if __name__ == "__main__":
+    from waitress import serve
+    serve(wsgi_app, host="0.0.0.0", port=8000)
