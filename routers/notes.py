@@ -49,6 +49,48 @@ async def get_all_subjects(user: user_dependency, db: db_dependency):
 
 
 
+@router.get('/all-subjects-with-topics', status_code=status.HTTP_200_OK)
+async def get_all_subjectsand_topics(user: user_dependency, db: db_dependency):
+    """
+    When you do the get request, you will get Courses grouped by the year and 
+    then first and second semesters respectively.
+    """
+
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Not Authenticated")
+    
+    user_info = db.query(User).filter(User.id == user.get('id')).first()
+
+    
+    
+
+    subject_statment = select(Subject)
+    subjects = db.exec(subject_statment).all()
+
+
+   
+
+    if not subjects:
+        raise HTTPException(status_code=404, detail="No Subject found")
+    
+
+    response = [
+        {
+            "id": subject.id,
+            "name": subject.name,
+            "topics": [topic.title for topic in subject.topics]
+        }
+        for subject in subjects
+    ]
+
+    
+
+    return {"subjects": response}
+
+
+
+
 @router.get('/course-topic', status_code=status.HTTP_200_OK)
 async def get_subject_topic(user: user_dependency, db: db_dependency, subject_id:int):
     """
